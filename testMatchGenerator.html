@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Match generator test</title>
+    <script src='js/matchGenerator.js'></script>
+    <script>
+      function writeTestResult() {
+        TEAMS_COUNT = 6
+        ROUNDS_COUNT = 12
+        MATCHES_IN_ROUND = 4
+        MATCHES_TEAM_IN_ROUND = 4
+        MAX_TEAM_MATCHES_CONSECUTIVELY = 2
+        MAX_TEAM_PAUSES_CONSECUTIVELY = -1
+
+        let teams = Array(TEAMS_COUNT)
+        for (let i = 0; i < teams.length; i++) teams[i] = newTeam((i + 1) + '. Team', [])
+        teams[1].limitations = ['10. Round']
+        let rounds = Array(ROUNDS_COUNT)
+        for (let i = 0; i < rounds.length; i++) rounds[i] = newRound((i + 1) + '. Round')
+        let input = newInput(teams, rounds, MATCHES_IN_ROUND, MATCHES_TEAM_IN_ROUND,
+            MAX_TEAM_MATCHES_CONSECUTIVELY, MAX_TEAM_PAUSES_CONSECUTIVELY)
+        try {
+          document.write(generateMatch(input).toString())
+        } catch (e) {
+          document.write(e.toString())
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <pre><script>writeTestResult()</script></pre>
+  </body>
+</html>
