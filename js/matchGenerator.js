@@ -177,8 +177,8 @@ function generateMatch (input) {
         tmp.pairs[team2.name][team1.name]++
         matches[j] = {
           free: false,
-          team1: team1,
-          team2: team2
+          team1: team1.name,
+          team2: team2.name
         }
       }
 
