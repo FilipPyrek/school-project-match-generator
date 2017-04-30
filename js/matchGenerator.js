@@ -70,7 +70,7 @@ function _prepareTmp (input) {
   return tmp
 }
 
-function _whoCanPlay (input, tmp, roundName, rival) {
+function _whoShouldPlay (input, tmp, roundName, rival) {
   tmp.teams.sort(function (x, y) {
     return tmp.teamsTmp[y.name].consecutive - tmp.teamsTmp[x.name].consecutive
   })
@@ -141,9 +141,9 @@ function generateMatch (input) {
     let roundName = input.rounds[i].name
     let matches = Array(input.matchesInRound)
     for (let j = 0; j < matches.length; j++) {
-      let team1 = _whoCanPlay(input, tmp, roundName, null)
+      let team1 = _whoShouldPlay(input, tmp, roundName, null)
       let team2 = null
-      if (team1 !== null) team2 = _whoCanPlay(input, tmp, roundName, team1)
+      if (team1 !== null) team2 = _whoShouldPlay(input, tmp, roundName, team1)
 
       if (team1 === null || team2 === null) {
         tmp.lastTeams.forEach(teamName => {
@@ -178,7 +178,10 @@ function generateMatch (input) {
         matches[j] = {
           free: false,
           team1: team1.name,
-          team2: team2.name
+          team2: team2.name,
+          pointsTeam1: -1,
+          pointsTeam2: -1,
+          winner: null
         }
       }
 
@@ -243,4 +246,25 @@ function generateMatch (input) {
     }
   }
   return result
+}
+
+function generateTreeMatch(input) {
+  if (input.teams.length < 2) {
+    throw newException('InputException', 'Two teams at last required for match generating.')
+  }
+  let tmp = _prepareTmp(input)
+  let result = {
+    input: input,
+    totalMatches: 0,  // input.rounds.length * input.matchesInRound,
+    rounds: Array(input.rounds.length),
+    toString: function () {
+      return JSON.stringify(this, null, 3)
+    }
+  }
+  updateTreeMatch(result);
+  return result
+}
+
+function updateTreeMatch(treeMatch) {
+  // TODO: implement
 }
