@@ -3,9 +3,9 @@ import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
-import rootReducer from '../reducers';
-import * as counterActions from '../actions/counter';
-import type { counterStateType } from '../reducers/counter';
+import rootReducer from '../reducer';
+import * as counterActions from '../containers/CounterPage/actions';
+import type { counterStateType } from '../containers/CounterPage/reducer';
 
 const history = createHashHistory();
 
@@ -51,8 +51,8 @@ const configureStore = (initialState: ?counterStateType) => {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers')) // eslint-disable-line global-require
+    module.hot.accept('../reducer', () =>
+      store.replaceReducer(require('../reducer')) // eslint-disable-line global-require
     );
   }
 
