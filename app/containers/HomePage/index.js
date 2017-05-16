@@ -20,14 +20,16 @@ function generateTestResult() {
   const input = new Input(teams, rounds, MATCHES_IN_ROUND, MATCHES_TEAM_IN_ROUND,
       MAX_TEAM_MATCHES_CONSECUTIVELY, MAX_TEAM_PAUSES_CONSECUTIVELY);
 
-  return generateMatch(input);
+  const a = generateMatch(input);
+  console.log(a);
+  return a;
 }
 
 export default class HomePage extends Component {
   render() {
+    generateTestResult();
     return (
       <div>
-        <pre>{JSON.stringify(generateTestResult(), null, 2)}</pre>
         {/* <Home /> */}
       </div>
     );
