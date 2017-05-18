@@ -4,8 +4,8 @@ import type { Children } from 'react';
 import { remote } from 'electron';
 /* eslint-disable flowtype-errors/show-errors */
 import AppBar from 'material-ui/AppBar';
-import * as Color from 'material-ui/styles/colors';
 /* eslint-enable */
+import * as Color from 'material-ui/styles/colors';
 import WindowClose from '../../components/WindowCloseButton';
 import WindowMaximize from '../../components/WindowMaximizeButton';
 import WindowMinimize from '../../components/WindowMinimizeButton';
@@ -38,16 +38,21 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          border: `solid 5px ${Color.green700}`,
+          borderTopWidth: '0px',
+          height: '100vh',
+          width: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
         <AppBar
           title="O co jde"
           style={{
             WebkitAppRegion: 'drag',
-            position: 'absolute',
-            top: '0px',
-            left: '0px',
-            backgroundColor: Color.green700,
             height: '64px',
+            boxShadow: 'none',
           }}
           iconElementRight={
             <div style={{ WebkitAppRegion: 'no-drag' }}>
@@ -58,16 +63,7 @@ export default class App extends Component {
             </div>
           }
         />
-        <div
-          style={{
-            border: `solid 5px ${Color.green700}`,
-            height: '100vh',
-            width: '100%',
-            boxSizing: 'border-box'
-          }}
-        >
-          {this.props.children}
-        </div>
+        {this.props.children}
       </div>
     );
   }

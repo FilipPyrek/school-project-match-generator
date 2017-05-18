@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 // import Home from '../../components/Home';
 import { Team, Round, Input } from '../../lib/matchGenerator/base';
 import { generateMatch } from '../../lib/matchGenerator/matchGenerator';
@@ -31,6 +32,7 @@ export default class HomePage extends Component {
     return (
       <div>
         {/* <Home /> */}
+        <Link to="/pick-sport">Pick sport</Link>
       </div>
     );
   }

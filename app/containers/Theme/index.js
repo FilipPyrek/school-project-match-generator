@@ -2,6 +2,7 @@
 import React, { Children } from 'react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import * as Color from 'material-ui/styles/colors';
 
 type ThemeType = {
   /* eslint-disable react/require-default-props */
@@ -11,6 +12,9 @@ type ThemeType = {
 };
 
 export const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: Color.green700,
+  },
 });
 
 

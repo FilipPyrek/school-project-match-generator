@@ -1,10 +1,12 @@
 // @flow
-import { combineReducers } from 'redux';
-import { routerReducer as router } from 'react-router-redux';
-import counter from './containers/CounterPage/reducer';
+import { combineReducers } from 'redux-immutable';
+import router from './lib/router/reducer';
+import file from './lib/file/reducer';
+import pickSport from './containers/PickSportScreen/reducer';
 
 const rootReducer = combineReducers({
-  counter,
+  file,
+  pickSport,
   router,
 });
 
