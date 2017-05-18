@@ -16,7 +16,7 @@ export default function WindowControlButton(props: WindowControlButtonType) {
     <span
       style={{
         display: 'inline-block',
-        ...style
+        ...style,
       }}
       {...cleanProps}
     >

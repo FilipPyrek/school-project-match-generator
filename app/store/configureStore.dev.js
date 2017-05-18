@@ -1,3 +1,4 @@
+// @flow
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import { createHashHistory } from 'history';
@@ -20,7 +21,7 @@ const configureStore = (initialState: ?counterStateType) => {
   // Logging Middleware
   const logger = createLogger({
     level: 'info',
-    collapsed: true
+    collapsed: true,
   });
   middleware.push(logger);
 
@@ -51,8 +52,8 @@ const configureStore = (initialState: ?counterStateType) => {
   const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
-    module.hot.accept('../reducer', () =>
-      store.replaceReducer(require('../reducer')) // eslint-disable-line global-require
+    module.hot.accept('../reducer', () => // eslint-disable-line flowtype-errors/show-errors
+      store.replaceReducer(require('../reducer')), // eslint-disable-line global-require
     );
   }
 

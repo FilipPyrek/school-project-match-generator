@@ -13,7 +13,7 @@ class TreeTmp extends JsonToString {
         actualMatches: 0,
         roundMatches: 0,
         consecutive: 0,
-        team
+        team,
       };
     });
 
@@ -70,7 +70,7 @@ function generateTreeMatch(input) {
     throw new Exception('InputException', 'Two teams at last required for match generating.');
   }
 
-  let result = new TreeMatchGeneratorResult(input);
+  const result = new TreeMatchGeneratorResult(input);
   updateTreeMatch(result);
   return result;
 }

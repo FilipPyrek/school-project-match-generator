@@ -13,7 +13,7 @@ class Tmp extends JsonToString {
         actualMatches: 0,
         roundMatches: 0,
         consecutive: 0,
-        team
+        team,
       };
     });
 
@@ -65,7 +65,7 @@ export class MatchResult extends JsonToString {
 
 function whoShouldPlay(input, tmp, roundName, rival) {
   tmp.teams.sort((x, y) =>
-    tmp.teamsTmp[y.name].consecutive - tmp.teamsTmp[x.name].consecutive
+    tmp.teamsTmp[y.name].consecutive - tmp.teamsTmp[x.name].consecutive,
   );
 
   if (input.maxTeamPausesConsecutively !== -1) {
@@ -187,8 +187,8 @@ export function generateMatch(input) {
       const equals = tmp.teams.every(team =>
         tmp.teamsTmp[team.name].actualMatches === targetActualMatches &&
             tmp.teams.every(rival =>
-              team === rival || tmp.pairs[team.name][rival.name] === targetPairsMatches
-            )
+              team === rival || tmp.pairs[team.name][rival.name] === targetPairsMatches,
+            ),
       );
       if (equals) lastEquation = 0;
 
