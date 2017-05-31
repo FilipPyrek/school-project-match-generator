@@ -1,8 +1,20 @@
 // @flow
 import React from 'react';
+import { MatchGeneratorResult } from '../../lib/matchGenerator/matchGenerator';
 
-export default function EditTable(props) {
+type EditTableType = {
+  file: {
+    sport: string,
+    matchData: MatchGeneratorResult
+  }
+};
+
+export default function EditTable(props: EditTableType) {
   return (
-    <div>asdas</div>
+    <pre>
+      {props.file.sport}
+      {'\n'}
+      {JSON.stringify(props.file.matchData, null, 2)}
+    </pre>
   );
 }

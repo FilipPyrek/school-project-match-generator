@@ -5,7 +5,7 @@ import EditTable from '../../components/EditTable';
 
 function mapStateToProps(state) {
   return {
-    sport: state.get('pickSport'),
+    file: state.getIn(['file', 'fileData']).toJS(),
   };
 }
 

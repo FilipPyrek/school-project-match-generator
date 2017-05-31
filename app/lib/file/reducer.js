@@ -11,7 +11,7 @@ type actionType = {
 
 const FileState = Record({
   name: '',
-  file: {},
+  fileData: {},
 });
 const initialState = new FileState();
 
@@ -22,7 +22,7 @@ export default function fileReducer(state: FileState = initialState, action: act
       return state.set('name', payload.name || 'football');
     }
     case SAVE_FILE: {
-      return state.set('file', fromJS(action.payload));
+      return state.set('fileData', fromJS(action.payload));
     }
     default:
       return state;
