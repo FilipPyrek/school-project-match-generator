@@ -28,11 +28,12 @@ function generateTestResult() {
 
 export default class HomePage extends Component {
   render() {
-    generateTestResult();
+    // generateTestResult();
     return (
       <div>
         {/* <Home /> */}
         <Link to="/pick-sport">Pick sport</Link>
+        <Link to="/edit">Edit</Link>
       </div>
     );
   }

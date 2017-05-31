@@ -1,19 +1,33 @@
 // @flow
-
 export const SELECT_SPORT = '@@app/PickSportScreen/SELECT_SPORT';
-export const SUBMIT = '@@app/PickSportScreen/SUBMIT';
+export const SET_TEAMS_COUNT = '@@app/PickSportScreen/SET_TEAMS_COUNT';
+export const SET_ROUNDS_COUNT = '@@app/PickSportScreen/SET_ROUNDS_COUNT';
+export const SET_ROUND_MATCHES_COUNT = '@@app/PickSportScreen/SET_ROUND_MATCHES_COUNT';
 
 export function selectSport(name: string) {
   return {
     type: SELECT_SPORT,
-    payload: {
-      name,
-    },
+    payload: { name },
   };
 }
 
-export function submit() {
+export function setTeamsCount(count: ?number) {
   return {
-    type: SUBMIT,
+    type: SET_TEAMS_COUNT,
+    payload: { count },
+  };
+}
+
+export function setRoundsCount(count: ?number) {
+  return {
+    type: SET_ROUNDS_COUNT,
+    payload: { count },
+  };
+}
+
+export function setRoundMatchesCount(count: ?number) {
+  return {
+    type: SET_ROUND_MATCHES_COUNT,
+    payload: { count },
   };
 }

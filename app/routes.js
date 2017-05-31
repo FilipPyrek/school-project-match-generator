@@ -5,10 +5,12 @@ import App from './containers/App';
 import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
 import PickSportScreen from './containers/PickSportScreen';
+import EditScreen from './containers/EditScreen';
 
 export default () => (
   <App>
     <Switch>
+      <Route path="/edit" component={EditScreen} />
       <Route path="/pick-sport" component={PickSportScreen} />
       <Route path="/counter" component={CounterPage} />
       <Route path="/" component={HomePage} />

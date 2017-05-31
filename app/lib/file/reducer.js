@@ -1,6 +1,6 @@
 // @flow
-import { Record } from 'immutable';
-import { SET_SPORT } from './actions';
+import { Record, fromJS } from 'immutable';
+import { SET_SPORT, SAVE_FILE } from './actions';
 
 type actionType = {
   type: string,
@@ -11,6 +11,7 @@ type actionType = {
 
 const FileState = Record({
   name: '',
+  file: {},
 });
 const initialState = new FileState();
 
@@ -19,6 +20,9 @@ export default function fileReducer(state: FileState = initialState, action: act
     case SET_SPORT: {
       const { payload = {} } = action;
       return state.set('name', payload.name || 'football');
+    }
+    case SAVE_FILE: {
+      return state.set('file', fromJS(action.payload));
     }
     default:
       return state;

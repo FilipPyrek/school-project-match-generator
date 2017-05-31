@@ -191,12 +191,13 @@ export function generateMatch(input) {
             ),
       );
       if (equals) lastEquation = 0;
-
+      /*
       console.log(`"equation": ${lastEquation}
          \n"round": ${(i + 1)}
          \n"match": ${(j + 1)}
          \n"matches": ${(i * matches.length) + (j + 1)}
          \n"tmp": ${tmp.toString()}`);
+      */
     }
 
     tmp.teams.forEach(team => {
