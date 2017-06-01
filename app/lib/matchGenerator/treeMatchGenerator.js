@@ -1,7 +1,25 @@
-import { Exception, JsonToString } from './base';
+// @flow
+
+import { Input, Team, Exception, JsonToString } from './base';
 
 class TreeTmp extends JsonToString {
-  constructor(input) {
+  teams: Array<Team>;
+  lastTeams: Array<string>;
+  teamsTmp: {
+    [team_name: string]: {
+      actualMatches: number,
+      roundMatches: number,
+      consecutive: number,
+      team: Team
+    }
+  };
+  pairs: {
+    [team_name: string]: {
+      [rival_team_name: string]: number
+    }
+  };
+
+  constructor(input: Input) {
     super();
     this.teams = input.teams.slice();
     this.lastTeams = [];
@@ -28,7 +46,13 @@ class TreeTmp extends JsonToString {
 }
 
 class TreeMatchGeneratorResult extends JsonToString {
-  constructor(input) {
+  input: Input;
+  tmp: TreeTmp;
+  totalMatches: number;
+  rounds: Array<TreeRound>;
+  tree: Array<Array<TreeMatch>>;
+
+  constructor(input: Input) {
     super();
     this.input = input;
     this.tmp = new TreeTmp(input);
@@ -39,7 +63,10 @@ class TreeMatchGeneratorResult extends JsonToString {
 }
 
 class TreeRound extends JsonToString {
-  constructor(name, matches) {
+  name: string;
+  matches: Array<TreeMatch>;
+
+  constructor(name: string, matches: Array<TreeMatch>) {
     super();
     this.name = name;
     this.matches = matches;
@@ -47,7 +74,12 @@ class TreeRound extends JsonToString {
 }
 
 class TreeMatch extends JsonToString {
-  constructor(free, team1, team2) {
+  free: boolean;
+  team1: string;
+  team2: string;
+  result: TreeMatchResult | null;
+
+  constructor(free: boolean, team1: Team, team2: Team) {
     super();
     this.free = free;
     this.team1 = team1.name;
@@ -57,7 +89,11 @@ class TreeMatch extends JsonToString {
 }
 
 class TreeMatchResult extends JsonToString {
-  constructor(pointsTeam1, pointsTeam2, winner) {
+  pointsTeam1: number;
+  pointsTeam2: number;
+  winner: string;
+
+  constructor(pointsTeam1: number, pointsTeam2: number, winner: string) {
     super();
     this.pointsTeam1 = pointsTeam1;
     this.pointsTeam2 = pointsTeam2;
@@ -65,7 +101,7 @@ class TreeMatchResult extends JsonToString {
   }
 }
 
-function generateTreeMatch(input) {
+function generateTreeMatch(input: Input) {
   if (input.teams.length < 2) {
     throw new Exception('InputException', 'Two teams at last required for match generating.');
   }
@@ -75,6 +111,6 @@ function generateTreeMatch(input) {
   return result;
 }
 
-function updateTreeMatch(treeMatchGeneratorResult) {
+function updateTreeMatch(treeMatchGeneratorResult: TreeMatchGeneratorResult) {
   // TODO: implement
 }

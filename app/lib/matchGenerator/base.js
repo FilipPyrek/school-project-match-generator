@@ -1,3 +1,5 @@
+// @flow
+
 export class JsonToString {
   toString() {
     return JSON.stringify(this, null, 3);
@@ -5,7 +7,10 @@ export class JsonToString {
 }
 
 export class Exception {
-  constructor(type, message) {
+  type: string;
+  message: string;
+
+  constructor(type: string, message: string) {
     this.type = type;
     this.message = message;
   }
@@ -16,7 +21,10 @@ export class Exception {
 }
 
 export class Team extends JsonToString {
-  constructor(name, limitations) {
+  name: string;
+  limitations: Array<string>;
+
+  constructor(name: string, limitations: Array<string>) {
     super();
     this.name = name;
     this.limitations = limitations;
@@ -24,15 +32,25 @@ export class Team extends JsonToString {
 }
 
 export class Round extends JsonToString {
-  constructor(name) {
+  name: string;
+
+  constructor(name: string) {
     super();
     this.name = name;
   }
 }
 
 export class Input extends JsonToString {
-  constructor(teams, rounds, matchesInRound,
-    matchesTeamInRound, maxTeamMatchesConsecutively, maxTeamPausesConsecutively) {
+  teams: Array<Team>;
+  rounds: Array<Round>;
+  matchesInRound: number;
+  matchesTeamInRound: number;
+  maxTeamMatchesConsecutively: number;
+  maxTeamPausesConsecutively: number;
+
+  constructor(teams: Array<Team>, rounds: Array<Round>, matchesInRound: number,
+    matchesTeamInRound: number, maxTeamMatchesConsecutively: number,
+    maxTeamPausesConsecutively: number) {
     super();
     this.teams = teams;
     this.rounds = rounds;
@@ -41,4 +59,12 @@ export class Input extends JsonToString {
     this.maxTeamMatchesConsecutively = maxTeamMatchesConsecutively;
     this.maxTeamPausesConsecutively = maxTeamPausesConsecutively;
   }
+}
+
+export function teamByName(input: Input, teamName: string): Team {
+  let result: Team;
+  input.teams.forEach((team: Team) => {
+    if (team.name === teamName) result = team;
+  });
+  return result; // eslint-disable-line flowtype-errors/show-errors
 }
