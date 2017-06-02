@@ -2,8 +2,8 @@
 import { remote } from 'electron';
 import { push } from 'react-router-redux';
 import fs from 'fs';
-import { generateMatch, MatchGeneratorResult } from '../../lib/matchGenerator/matchGenerator';
-import { Team, Round, Input } from '../../lib/matchGenerator/base';
+import { generate, makeInput, makeTeam } from '../../lib/competitionGenerator/allVsAllGenerator';
+import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 
 export const SET_SPORT = '@@lib/file/SET_SPORT';
 export const SAVE_FILE = '@@lib/file/SAVE_FILE';
@@ -20,14 +20,14 @@ export function setSport(name: string) {
 type SaveFileType = {
   sport: string,
   filename: string,
-  matchData: MatchGeneratorResult
+  competitionData: Result
 };
 
 export function saveFile(data: SaveFileType) {
-  const { sport, filename, matchData } = data;
+  const { sport, filename, competitionData } = data;
   fs.writeFileSync(filename, JSON.stringify({
     sport,
-    matchData,
+    competitionData,
   }));
   return {
     type: SAVE_FILE,
@@ -58,14 +58,15 @@ export function newFile(data: NewFileType) {
   .then((filename) => dispatch(saveFile({
     filename,
     sport,
-    matchData: generateMatch(
-      new Input(
-        Array(teamsCount).fill(0).map((_, i) => new Team(`${i + 1}. Team`, [])),
-        Array(roundsCount).fill(0).map((_, i) => new Round(`${i + 1}. Round`)),
-        roundMatchesCount,
+    competitionData: generate(
+      makeInput(
+        Array(teamsCount).fill(0).map((_, i) => makeTeam(`${i + 1}. Team`, [])), // TEAMS
+        roundsCount, // SEASONS_COUNT
+        roundMatchesCount, // MAX_MATCHES_IN_SEASON
         4, // MATCHES_TEAM_IN_ROUND
         2, // MAX_TEAM_MATCHES_CONSECUTIVELY
         -1, // MAX_TEAM_PAUSES_CONSECUTIVELY
+        true, // ALLOW_INCOMPLETE_TABLE
       ),
     ),
   })))
