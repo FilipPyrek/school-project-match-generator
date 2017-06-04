@@ -66,6 +66,12 @@ export type MatchResult = { // Can contain any kind of data, must contain winner
   winnerTeamIndex: number // Index of winner team in input.teams
 };
 
+export type CommonMatchResult = {
+  ...MatchResult,
+  team1Score: number,
+  team2Score: number
+};
+
 export type Match = {
   team1Index: number, // Index of first team in input.teams
   team2Index: number, // Index of second team in input.teams
