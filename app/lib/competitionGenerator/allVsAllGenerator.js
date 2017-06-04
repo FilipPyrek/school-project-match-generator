@@ -79,7 +79,7 @@ export type Match = {
   // not added (and even not currently used) by generator
 };
 
-export type SeasonTable = Array<number>; // Array of indexes of matches in result.allMatches
+export type SeasonTable = Array<number | null>; // Array of indexes of matches in result.allMatches
 
 export type AllVsAllTable = Array<Array<number | null>>; // 2D Array of indexes of
 // matches in result.allMatches, indexes of rows and columns equals teams indexes
@@ -131,17 +131,11 @@ type CalcTmp = {
 };
 
 function makeCalcTmp(input: Input): CalcTmp {
-  const calcTmp: CalcTmp = {
-    teamsIndexes: Array(input.teams.length),
+  return {
+    teamsIndexes: Array(input.teams.length).fill(-1).map((_, i) => i),
     teamsIndexesLast: [],
     lastMatchesEquation: 0,
   };
-
-  for (let i = 0; i < input.teams.length; i++) {
-    calcTmp.teamsIndexes[i] = i;
-  }
-
-  return calcTmp;
 }
 
 export type Result = {
@@ -178,7 +172,8 @@ function addToAllVsAllTable(resultIn: Result, matchIndex: number) {
     }
   }
 
-  const table: AllVsAllTable = Array(result.input.teams.length);
+  const table: AllVsAllTable = Array(result.input.teams.length)
+      .fill(Array(result.input.teams.length).fill(null));
   for (let i = 0; i < table.length; i++) {
     table[i] = Array(result.input.teams.length);
     table[i].fill(null);
@@ -258,7 +253,7 @@ export function update(resultIn: Result): Result {
   const calcTmp = makeCalcTmp(result.input);
 
   for (let seasonIndex = 0; seasonIndex < result.input.seasonsCount; seasonIndex++) {
-    const season: SeasonTable = Array(result.input.maxMatchesInSeason);
+    const season: SeasonTable = Array(result.input.maxMatchesInSeason).fill(null);
     for (let matchInSeasonIndex = 0; matchInSeasonIndex < season.length; matchInSeasonIndex++) {
       const teamIndex1: number = whoShouldPlay(result.input, result.resultTmp,
                                                calcTmp, seasonIndex, -1);
@@ -277,7 +272,7 @@ export function update(resultIn: Result): Result {
         });
         calcTmp.teamsIndexesLast = [];
 
-        season[matchInSeasonIndex] = -1;
+        season[matchInSeasonIndex] = null;
       } else {
         const oldLastTeams: Array<number> = calcTmp.teamsIndexesLast;
         const newLastTeams: Array<number> = [teamIndex1, teamIndex2];
@@ -366,9 +361,9 @@ export function update(resultIn: Result): Result {
     console.log(`Reverting last ${calcTmp.lastMatchesEquation} matches to get equality of played matches for all teams.`);
     for (let i = result.input.seasonsCount - 1; i >= 0; i--) {
       for (let j = result.input.maxMatchesInSeason - 1; j >= 0; j--) {
-        const matchIndex: number = result.tablesSeasons[i][j];
-        if (matchIndex !== -1) {
-          result.tablesSeasons[i][j] = -1;
+        const matchIndex: number | null = result.tablesSeasons[i][j];
+        if (matchIndex !== null) {
+          result.tablesSeasons[i][j] = null;
           delete result.allMatches[matchIndex];
         }
         if (--calcTmp.lastMatchesEquation === 0) break;

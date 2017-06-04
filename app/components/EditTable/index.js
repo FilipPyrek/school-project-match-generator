@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
-import { renderAllVsAllTable, renderSeasonsTable } from '../../lib/competitionGenerator/addVsAddRenderer';
+import { renderAllVsAllTable, renderSeasonsTable } from '../../lib/competitionGenerator/allVsAllRenderer';
 
 type EditTableType = {
   file: {
