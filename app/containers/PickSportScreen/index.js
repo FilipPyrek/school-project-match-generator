@@ -5,7 +5,10 @@ import * as PickSportActions from './actions';
 import { newFile } from '../../lib/file/actions';
 
 function mapStateToProps(state) {
-  return state.get('pickSport').toJS();
+  return {
+    ...state.get('pickSport').toJS(),
+    error: state.getIn(['file', 'error']),
+  };
 }
 
 const mapDispatchToProps = {

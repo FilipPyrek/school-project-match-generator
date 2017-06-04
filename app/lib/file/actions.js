@@ -6,13 +6,23 @@ import { generate, makeInput, makeTeam } from '../../lib/competitionGenerator/al
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 
 export const SET_SPORT = '@@lib/file/SET_SPORT';
-export const SAVE_FILE = '@@lib/file/SAVE_FILE';
+export const SET_ERROR = '@@lib/file/SET_ERROR';
+export const OPEN_FILE = '@@lib/file/SAVE_FILE';
 
 export function setSport(name: string) {
   return {
     type: SET_SPORT,
     payload: {
       name,
+    },
+  };
+}
+
+export function setError(message: string) {
+  return {
+    type: SET_ERROR,
+    payload: {
+      message,
     },
   };
 }
@@ -28,9 +38,9 @@ export function saveFile(data: SaveFileType) {
   fs.writeFileSync(filename, JSON.stringify({
     sport,
     competitionData,
-  }));
+  }), { encoding: 'UTF8' });
   return {
-    type: SAVE_FILE,
+    type: OPEN_FILE,
     payload: data,
   };
 }
@@ -45,16 +55,21 @@ type NewFileType = {
 export function newFile(data: NewFileType) {
   const { sport, teamsCount, roundsCount, roundMatchesCount } = data;
   return (dispatch: () => void) =>
-    new Promise((resolve, reject) =>
+    new Promise((resolve) =>
       remote.dialog.showSaveDialog(
-        { title: 'Uložit soubor' },
+        {
+          title: 'Uložit soubor',
+          filters: [{
+            name: 'Simple brackets soubory (*.sib)',
+            extensions: ['sib'],
+          }],
+        },
         (filename: ?string) =>
           filename
             ? resolve(filename)
-            : reject(),
+            : null,
     ),
   )
-  .catch(() => dispatch(push('/pick-sport')))
   .then((filename) => dispatch(saveFile({
     filename,
     sport,
@@ -71,5 +86,34 @@ export function newFile(data: NewFileType) {
     ),
   })))
   .then(() => dispatch(push('/edit')))
-  .catch(console.log);
+  .catch((e) => dispatch(setError(e.message)));
+}
+
+export function openFile() {
+  return (dispatch: () => void) =>
+    new Promise((resolve, reject) =>
+      remote.dialog.showOpenDialog(
+        {
+          title: 'Otevřít soubor',
+          filters: [{
+            name: 'Simple brackets soubory (*.sib)',
+            extensions: ['sib'],
+          }],
+          properties: [true, false, false, false, true, false, false],
+        },
+        (filename: ?Array<string>) =>
+          filename && filename[0]
+            ? resolve(filename[0])
+            : reject(),
+    ),
+  )
+  .then((filename) => {
+    const data = JSON.parse(fs.readFileSync(filename, { encoding: 'UTF8' }));
+    return dispatch({
+      type: OPEN_FILE,
+      payload: data,
+    });
+  })
+  .then(() => dispatch(push('/edit')))
+  .catch(() => dispatch(push('/')));
 }

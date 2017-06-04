@@ -12,9 +12,10 @@ type EditTableType = {
 
 export default function EditTable(props: EditTableType) {
   const generatorResult: Result = props.file.competitionData;
+  console.log(generatorResult);
 
   return ( // Simple table drawing. I did found index, as only usable key value...
-    <div>
+    <div style={{ height: '80vh', overflow: 'auto' }}>
       <h3>{props.file.sport}</h3>
       {renderAllVsAllTable(generatorResult)}
       <br />

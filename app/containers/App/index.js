@@ -48,12 +48,15 @@ export default class App extends Component {
         }}
       >
         <AppBar
-          title="O co jde"
+          title="Simple brackets"
           style={{
             WebkitAppRegion: 'drag',
             height: '64px',
             boxShadow: 'none',
           }}
+          iconElementLeft={
+            <div />
+          }
           iconElementRight={
             <div style={{ WebkitAppRegion: 'no-drag' }}>
               <WindowMinimize onClick={minimize} {...windowControlsButton} />
