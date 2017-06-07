@@ -398,8 +398,8 @@ export function update(resultIn: Result): Result {
 
   result.tablePoints.map(() => ({ total: 0 }));
   Object.keys(result.allMatches) // eslint-disable-line flowtype-errors/show-errors
-    .forEach((indexId: number) => {
-      const match: Match = result.allMatches[indexId];
+    .forEach((indexId: string) => {
+      const match: Match = result.allMatches[Number(indexId)];
       if (!match.result) return;
       const team1Points: TeamPoints = result.tablePoints[match.team1Index];
       const team2Points: TeamPoints = result.tablePoints[match.team2Index];

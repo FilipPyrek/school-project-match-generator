@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 /* eslint-disable flowtype-errors/show-errors */
-// import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 /* eslint-enable */
@@ -12,7 +11,6 @@ type PickSportType = {
   teamsCount: ?number,
   roundsCount: ?number,
   roundMatchesCount: ?number,
-  /* onSportChage: () => void, */
   onTeamsCountChange: () => void,
   onRoundsCountChange: () => void,
   onRoundMatchesCountChange: () => void,
@@ -26,7 +24,6 @@ export default function PickSport(props: PickSportType) {
     teamsCount,
     roundsCount,
     roundMatchesCount,
-    /* onSportChage, */
     onTeamsCountChange,
     onRoundsCountChange,
     onRoundMatchesCountChange,
@@ -34,26 +31,6 @@ export default function PickSport(props: PickSportType) {
   } = props;
   return (
     <div>
-      {/*
-      <RadioButtonGroup
-        name="sport"
-        valueSelected={sport}
-        onChange={(_, value) => onSportChage(value)}
-      >
-        <RadioButton
-          value="football"
-          label="Fotbal"
-        />
-        <RadioButton
-          value="tenis"
-          label="Tenis"
-        />
-        <RadioButton
-          value="volleyball"
-          label="Volejbal"
-        />
-      </RadioButtonGroup>
-      */}
       <table>
         <tbody>
           <tr>

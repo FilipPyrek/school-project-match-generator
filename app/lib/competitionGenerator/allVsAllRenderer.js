@@ -112,12 +112,12 @@ export function SeasonsTable(props: RenderSeansonsTableType) {
             border: 'solid 1px',
             borderColor: muiTheme.palette.primary1Color,
             boxSizing: 'border-box',
-            float: 'left'
+            float: 'left',
           }}
         >
           <Table key={i} selectable={false}>
             <TableBody displayRowCheckbox={false}>
-              <TableRow>
+              <TableRow key={-1}>
                 <TableRowColumn
                   colSpan={2}
                   style={{ textAlign: 'center', fontSize: '2vmin' }}
