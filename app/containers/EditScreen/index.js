@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import EditTable from '../../components/EditTable';
-// import * as PickSportActions from './actions';
+import * as FileActions from '../../lib/file/actions';
 
 function mapStateToProps(state) {
   return {
@@ -10,11 +10,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  /* onSportChage: PickSportActions.selectSport,
-  onTeamsCountChange: PickSportActions.setTeamsCount,
-  onRoundsCountChange: PickSportActions.setRoundsCount,
-  onRoundMatchesCountChange: PickSportActions.setRoundMatchesCount,
-  onSubmit: PickSportActions.submit,*/
+  onSetResult: FileActions.setResult,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTable);

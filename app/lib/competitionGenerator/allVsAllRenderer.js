@@ -1,6 +1,19 @@
 // @flow
 import React from 'react';
 import type { Team, Match, Result } from './allVsAllGenerator';
+/* eslint-disable flowtype-errors/show-errors */
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import {
+  Table,
+  TableBody,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
+/* eslint-enable */
+import { muiTheme } from '../../containers/Theme';
 
 export function renderAllVsAllTable(generatorResult: Result) {
   const tableStyle = {
@@ -81,85 +94,93 @@ export function renderAllVsAllTable(generatorResult: Result) {
   );
 }
 
-export function renderSeasonsTable(generatorResult: Result) {
-  // edit this function, add parameter as callback for edit button
-  const tableStyle = {
-    border: '1px solid black',
-    marginBottom: '8px',
-    borderSpacing: '0',
-  };
-  const tdStyle = {
-    border: '1px solid black',
-    padding: '4px',
-  };
+type RenderSeansonsTableType = {
+  generatorResult: Result,
+  onSetResultValue: (cellMatchIndex: number, teamId: number, value: number | null) => void
+};
+
+export function SeasonsTable(props: RenderSeansonsTableType) {
+  const { generatorResult, onSetResultValue } = props;
 
   return (
     <div>
       {Array(generatorResult.tablesSeasons.length).fill(0).map((_, i) =>
-        <table key={i} style={tableStyle}>
-          <tbody>
-            <tr>
-              <th>Seasson {i}</th>
-            </tr>
-
-            {Array(generatorResult.tablesSeasons[i].length).fill(0).map((__, j) => {
-              const cellMatchIndex: number | null = generatorResult.tablesSeasons[i][j];
-              if (cellMatchIndex !== null) {
-                const cellMatch: Match = generatorResult.allMatches[cellMatchIndex];
-                const team1: Team = generatorResult.input.teams[cellMatch.team1Index];
-                const team2: Team = generatorResult.input.teams[cellMatch.team2Index];
-                if (cellMatch.result) {
-                  if (cellMatch.result.team1Score && cellMatch.result.team2Score) {
-                    return (
-                      <tr key={j}>
-                        <td style={tdStyle}>
-                          {team1.name} {' / '} {team2.name}
-                        </td>
-                        <td style={tdStyle}>
-                          {cellMatch.result.team1Score} {' / '}
-                          {cellMatch.result.team2Score}
-                          <a>Edit result button</a>
-                        </td>
-                      </tr>
-                    );
-                  }
-                  const winnerTeam: Team = generatorResult.input
-                      .teams[cellMatch.result.winnerTeamIndex];
+        <div
+          style={{
+            width: '25%',
+            display: 'inline-block',
+            border: 'solid 1px',
+            borderColor: muiTheme.palette.primary1Color,
+            boxSizing: 'border-box',
+            float: 'left'
+          }}
+        >
+          <Table key={i} selectable={false}>
+            <TableBody displayRowCheckbox={false}>
+              <TableRow>
+                <TableRowColumn
+                  colSpan={2}
+                  style={{ textAlign: 'center', fontSize: '2vmin' }}
+                >
+                  {i + 1}. etapa
+                </TableRowColumn>
+              </TableRow>
+              {Array(generatorResult.tablesSeasons[i].length).fill(0).map((__, j) => {
+                const cellMatchIndex: number | null = generatorResult.tablesSeasons[i][j];
+                if (cellMatchIndex !== null) {
+                  const cellMatch: Match = generatorResult.allMatches[cellMatchIndex];
+                  const { result = {} } = cellMatch;
+                  const { team1Score = '', team2Score = '' } = result;
+                  const team1: Team = generatorResult.input.teams[cellMatch.team1Index];
+                  const team2: Team = generatorResult.input.teams[cellMatch.team2Index];
                   return (
-                    <tr key={j}>
-                      <td style={tdStyle}>
-                        {team1.name} {' / '} {team2.name}
-                      </td>
-                      <td style={tdStyle}>
-                        {'Winner: '} {winnerTeam.name}
-                        <a>Edit result button</a>
-                      </td>
-                    </tr>
+                    <TableRow key={j}>
+                      <TableRowColumn>
+                        {team1.name} / {team2.name}
+                      </TableRowColumn>
+                      <TableRowColumn>
+                        <TextField
+                          name="team1"
+                          value={team1Score === null ? '' : team1Score}
+                          style={{ width: '5vmin' }}
+                          inputStyle={{ textAlign: 'center' }}
+                          onChange={({ target }) => onSetResultValue(
+                              cellMatchIndex,
+                              1,
+                              target.value && Number.isInteger(Number(target.value))
+                                ? Number(target.value)
+                                : null,
+                          )}
+                        />
+                        :
+                        <TextField
+                          name="team2"
+                          value={team2Score === null ? '' : team2Score}
+                          style={{ width: '5vmin' }}
+                          inputStyle={{ textAlign: 'center' }}
+                          onChange={({ target }) => onSetResultValue(
+                              cellMatchIndex,
+                              2,
+                              target.value && Number.isInteger(Number(target.value))
+                                ? Number(target.value)
+                                : null,
+                          )}
+                        />
+                      </TableRowColumn>
+                    </TableRow>
                   );
                 }
                 return (
-                  <tr key={j}>
-                    <td style={tdStyle}>
-                      {team1.name} <br /> {team2.name}
-                    </td>
-                    <td style={tdStyle}>
-                      <a>Set result button</a>
-                    </td>
-                  </tr>
+                  <TableRow>
+                    <TableRowColumn colSpan={2}>-</TableRowColumn>
+                  </TableRow>
                 );
-              }
-              return (
-                <tr key={j}>
-                  <td style={tdStyle}>
-                    {'No match'}
-                  </td>
-                  <td style={tdStyle} />
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>,
+              })}
+            </TableBody>
+          </Table>
+        </div>,
       )}
+      <div style={{ clear: 'both' }} />
     </div>
   );
 }

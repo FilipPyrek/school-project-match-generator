@@ -66,20 +66,16 @@ export function makeInput(
   };
 }
 
-export type MatchResult = { // Can contain any kind of data, must contain winner team index.
-  winnerTeamIndex: number // Index of winner team in input.teams
-};
 
-export type CommonMatchResult = {
-  ...MatchResult,
-  team1Score: number,
-  team2Score: number
+export type MatchResult = {
+  team1Score?: number | null,
+  team2Score?: number | null
 };
 
 export type Match = {
   team1Index: number, // Index of first team in input.teams
   team2Index: number, // Index of second team in input.teams
-  result?: MatchResult | null // Result of match,
+  result?: MatchResult // Result of match,
   // not added (and even not currently used) by generator
 };
 

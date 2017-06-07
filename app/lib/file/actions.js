@@ -7,6 +7,7 @@ import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 
 export const SET_SPORT = '@@lib/file/SET_SPORT';
 export const SET_ERROR = '@@lib/file/SET_ERROR';
+export const SET_RESULT = '@@lib/file/SET_RESULT';
 export const OPEN_FILE = '@@lib/file/SAVE_FILE';
 
 export function setSport(name: string) {
@@ -15,6 +16,13 @@ export function setSport(name: string) {
     payload: {
       name,
     },
+  };
+}
+
+export function setResult(cellMatchIndex: number, teamId: number, value: number | null) {
+  return {
+    type: SET_RESULT,
+    payload: { cellMatchIndex, teamId, value },
   };
 }
 
@@ -75,7 +83,7 @@ export function newFile(data: NewFileType) {
     sport,
     competitionData: generate(
       makeInput(
-        Array(teamsCount).fill(0).map((_, i) => makeTeam(`${i + 1}. Team`, [])), // TEAMS
+        Array(teamsCount).fill(0).map((_, i) => makeTeam(`${i + 1}. Tým`, [])), // TEAMS
         roundsCount, // SEASONS_COUNT
         roundMatchesCount, // MAX_MATCHES_IN_SEASON
         4, // MATCHES_TEAM_IN_ROUND
