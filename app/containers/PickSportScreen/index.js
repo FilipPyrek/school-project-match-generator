@@ -12,7 +12,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  onSportChage: PickSportActions.selectSport,
   onTeamsCountChange: PickSportActions.setTeamsCount,
   onRoundsCountChange: PickSportActions.setRoundsCount,
   onRoundMatchesCountChange: PickSportActions.setRoundMatchesCount,

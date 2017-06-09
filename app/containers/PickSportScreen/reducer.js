@@ -1,7 +1,6 @@
 // @flow
 import { Map, fromJS } from 'immutable';
 import {
-  SELECT_SPORT,
   SET_TEAMS_COUNT,
   SET_ROUNDS_COUNT,
   SET_ROUND_MATCHES_COUNT,
@@ -16,7 +15,6 @@ type actionType = {
 };
 
 const initialState = fromJS({
-  sport: 'football',
   teamsCount: null,
   roundsCount: null,
   roundMatchesCount: null,
@@ -24,10 +22,6 @@ const initialState = fromJS({
 
 export default function pickSportReducer(state: Map = initialState, action: actionType) {
   switch (action.type) {
-    case SELECT_SPORT: {
-      const { payload = {} } = action;
-      return state.set('sport', payload.name);
-    }
     case SET_TEAMS_COUNT: {
       const { payload = {} } = action;
       return state.set('teamsCount', payload.count);

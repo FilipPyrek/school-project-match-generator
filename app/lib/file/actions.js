@@ -5,19 +5,11 @@ import fs from 'fs';
 import { generate, makeInput, makeTeam } from '../../lib/competitionGenerator/allVsAllGenerator';
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 
-export const SET_SPORT = '@@lib/file/SET_SPORT';
 export const SET_ERROR = '@@lib/file/SET_ERROR';
 export const SET_RESULT = '@@lib/file/SET_RESULT';
-export const OPEN_FILE = '@@lib/file/SAVE_FILE';
-
-export function setSport(name: string) {
-  return {
-    type: SET_SPORT,
-    payload: {
-      name,
-    },
-  };
-}
+export const OPEN_FILE = '@@lib/file/OPEN_FILE';
+export const SAVE_FILE = '@@lib/file/SAVE_FILE';
+export const HIDE_SAVE_SNACKBAR = '@@lib/file/HIDE_SAVE_SNACKBAR';
 
 export function setResult(cellMatchIndex: number, teamId: number, value: number | null) {
   return {
@@ -35,33 +27,36 @@ export function setError(message: string) {
   };
 }
 
+export function hideSaveSnackbar() {
+  return {
+    type: HIDE_SAVE_SNACKBAR,
+  };
+}
+
 type SaveFileType = {
-  sport: string,
   filename: string,
   competitionData: Result
 };
 
 export function saveFile(data: SaveFileType) {
-  const { sport, filename, competitionData } = data;
+  const { filename, competitionData } = data;
   fs.writeFileSync(filename, JSON.stringify({
-    sport,
     competitionData,
   }), { encoding: 'UTF8' });
   return {
-    type: OPEN_FILE,
+    type: SAVE_FILE,
     payload: data,
   };
 }
 
 type NewFileType = {
-  sport: string,
   teamsCount: number,
   roundsCount: number,
   roundMatchesCount: number
 };
 
 export function newFile(data: NewFileType) {
-  const { sport, teamsCount, roundsCount, roundMatchesCount } = data;
+  const { teamsCount, roundsCount, roundMatchesCount } = data;
   return (dispatch: () => void) =>
     new Promise((resolve) =>
       remote.dialog.showSaveDialog(
@@ -80,7 +75,6 @@ export function newFile(data: NewFileType) {
   )
   .then((filename) => dispatch(saveFile({
     filename,
-    sport,
     competitionData: generate(
       makeInput(
         Array(teamsCount).fill(0).map((_, i) => makeTeam(`${i + 1}. Tým`, [])), // TEAMS
@@ -93,6 +87,16 @@ export function newFile(data: NewFileType) {
       ),
     ),
   })))
+  .then(({ payload = {} } = {}) => {
+    const loadedData = JSON.parse(fs.readFileSync(payload.filename, { encoding: 'UTF8' }));
+    return dispatch({
+      type: OPEN_FILE,
+      payload: {
+        filename: payload.filename,
+        data: loadedData,
+      },
+    });
+  })
   .then(() => dispatch(push('/edit')))
   .catch((e) => dispatch(setError(e.message)));
 }
@@ -119,7 +123,10 @@ export function openFile() {
     const data = JSON.parse(fs.readFileSync(filename, { encoding: 'UTF8' }));
     return dispatch({
       type: OPEN_FILE,
-      payload: data,
+      payload: {
+        filename,
+        data,
+      },
     });
   })
   .then(() => dispatch(push('/edit')))

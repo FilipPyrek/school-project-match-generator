@@ -6,7 +6,6 @@ import TextField from 'material-ui/TextField';
 /* eslint-enable */
 
 type PickSportType = {
-  sport: string,
   error: ?string | null,
   teamsCount: ?number,
   roundsCount: ?number,
@@ -19,7 +18,6 @@ type PickSportType = {
 
 export default function PickSport(props: PickSportType) {
   const {
-    sport,
     error = '',
     teamsCount,
     roundsCount,
@@ -75,7 +73,7 @@ export default function PickSport(props: PickSportType) {
               <RaisedButton
                 label="Vytvořit"
                 onTouchTap={() => onSubmit(
-                  { sport, teamsCount, roundsCount, roundMatchesCount },
+                  { teamsCount, roundsCount, roundMatchesCount },
                 )}
                 primary
               />

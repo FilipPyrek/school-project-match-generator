@@ -4,6 +4,7 @@ import { AppContainer } from 'react-hot-loader';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
+import { openFile, saveFile } from './lib/file/actions';
 import './app.global.css';
 
 // Needed for onTouchTap
@@ -11,6 +12,28 @@ import './app.global.css';
 injectTapEventPlugin();
 
 const store = configureStore();
+
+window.addEventListener('keyup', (e) => {
+  const { keyCode, altKey, ctrlKey, shiftKey } = e;
+  if (!altKey && ctrlKey && !shiftKey) {
+    switch (keyCode) { // eslint-disable-line default-case
+      case 79: {
+        store.dispatch(openFile());
+        break;
+      }
+      case 83: {
+        const file = store.getState().get('file').toJS();
+        if (file.filename) {
+          store.dispatch(saveFile({
+            filename: file.filename,
+            competitionData: file.fileData.competitionData,
+          }));
+        }
+        break;
+      }
+    }
+  }
+});
 
 render(
   <AppContainer>
