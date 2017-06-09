@@ -1,5 +1,6 @@
 // @flow
 import { Map, fromJS } from 'immutable';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   SET_TEAMS_COUNT,
   SET_ROUNDS_COUNT,
@@ -10,7 +11,8 @@ type actionType = {
   type: string,
   payload?: {
     name?: string,
-    count?: ?number
+    count?: ?number,
+    pathname?: string
   }
 };
 
@@ -33,6 +35,11 @@ export default function pickSportReducer(state: Map = initialState, action: acti
     case SET_ROUND_MATCHES_COUNT: {
       const { payload = {} } = action;
       return state.set('roundMatchesCount', payload.count);
+    }
+    case LOCATION_CHANGE: {
+      const { payload = {} } = action;
+      const { pathname } = payload;
+      return pathname === '/pick-sport' ? initialState : state;
     }
     default:
       return state;

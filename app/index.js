@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import { push } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
@@ -14,17 +15,22 @@ injectTapEventPlugin();
 const store = configureStore();
 
 window.addEventListener('keyup', (e) => {
+  const { dispatch } = store;
   const { keyCode, altKey, ctrlKey, shiftKey } = e;
   if (!altKey && ctrlKey && !shiftKey) {
     switch (keyCode) { // eslint-disable-line default-case
+      case 78: {
+        dispatch(push('/pick-sport'));
+        break;
+      }
       case 79: {
-        store.dispatch(openFile());
+        dispatch(openFile());
         break;
       }
       case 83: {
         const file = store.getState().get('file').toJS();
         if (file.filename) {
-          store.dispatch(saveFile({
+          dispatch(saveFile({
             filename: file.filename,
             competitionData: file.fileData.competitionData,
           }));
