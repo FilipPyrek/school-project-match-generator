@@ -30,7 +30,9 @@ export default function EditTable(props: EditTableType) {
           </div>
         </Tab>
         <Tab label="Výsledky">
-          <AllVsAllTable generatorResult={generatorResult} />
+          <div style={{ height: 'calc(100vh - 117px)', overflow: 'auto' }}>
+            <AllVsAllTable generatorResult={generatorResult} />
+          </div>
         </Tab>
       </Tabs>
       <Snackbar
