@@ -4,7 +4,7 @@ import React from 'react';
 import { Tabs, Tab } from 'material-ui/Tabs';
 /* eslint-enable */
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
-import { renderAllVsAllTable } from '../../lib/competitionGenerator/allVsAllRenderer';
+import AllVsAllTable from '../AllVsAllTable';
 import SeasonsTable from '../SeasonsTable';
 
 type EditTableType = {
@@ -28,7 +28,7 @@ export default function EditTable(props: EditTableType) {
           </div>
         </Tab>
         <Tab label="Výsledky">
-          {/* renderAllVsAllTable(generatorResult)*/}
+          <AllVsAllTable generatorResult={generatorResult} />
         </Tab>
       </Tabs>
     </div>

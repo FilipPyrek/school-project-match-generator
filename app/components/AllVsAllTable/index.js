@@ -1,8 +1,14 @@
 // @flow
 import React from 'react';
-import type { Team, Match, Result } from './allVsAllGenerator';
+import type { Match, Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 
-export function renderAllVsAllTable(generatorResult: Result) {
+type AllVsAllTableType = {
+  generatorResult: Result
+};
+
+export default function AllVsAllTable(props: AllVsAllTableType) {
+  const { generatorResult } = props;
+
   const tableStyle = {
     border: '1px solid black',
     marginBottom: '8px',
@@ -43,32 +49,23 @@ export function renderAllVsAllTable(generatorResult: Result) {
                   const cellMatchIndex: number | null = generatorResult.tablesAllVsAll[i][j][k];
                   if (cellMatchIndex !== null) { // Is match in cell? (Is cell free?)
                     const cellMatch: Match = generatorResult.allMatches[cellMatchIndex];
+                    const { result = {} } = cellMatch;
+                    const { team1Score = null, team2Score = null } = result;
                     // const team1: Team = generatorResult.input.teams[cellMatch.team1Index];
                     // const team2: Team = generatorResult.input.teams[cellMatch.team2Index];
-                    if (cellMatch.result) {
-                      if (cellMatch.result.team1Score && cellMatch.result.team2Score) {
-                        return (
-                          <td key={k} style={tdStyle}>
-                            {cellMatch.result.team1Score} {' / '}
-                            {cellMatch.result.team2Score}
-                          </td>
-                        );
-                      }
-                      const winnerTeam: Team = generatorResult.input
-                          .teams[cellMatch.result.winnerTeamIndex];
-                      return (
-                        <td key={k} style={tdStyle}>
-                          {'Winner: '} {winnerTeam.name}
-                        </td>
-                      );
-                    }
                     return (
-                      <td key={k} style={tdStyle} />
+                      typeof team1Score === 'number' && typeof team2Score === 'number'
+                        ?
+                          <td key={k} style={tdStyle}>
+                            {String(team1Score)} : {String(team2Score)}
+                          </td>
+                        :
+                          <td key={k} style={tdStyle} />
                     );
                   }
                   return (
                     <td key={k} style={tdStyle}>
-                      {'No match'}
+                      {'-'}
                     </td>
                   );
                 })}
