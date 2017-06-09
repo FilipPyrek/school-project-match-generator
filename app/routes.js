@@ -3,7 +3,6 @@ import React from 'react';
 import { Switch, Route } from 'react-router';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
-import CounterPage from './containers/CounterPage';
 import PickSportScreen from './containers/PickSportScreen';
 import EditScreen from './containers/EditScreen';
 
@@ -12,7 +11,6 @@ export default () => (
     <Switch>
       <Route path="/edit" component={EditScreen} />
       <Route path="/pick-sport" component={PickSportScreen} />
-      <Route path="/counter" component={CounterPage} />
       <Route path="/" component={HomePage} />
     </Switch>
   </App>
