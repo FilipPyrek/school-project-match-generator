@@ -1,9 +1,11 @@
 // @flow
 import React from 'react';
-import {Tabs, Tab} from 'material-ui/Tabs';
-import Slider from 'material-ui/Slider';
+/* eslint-disable flowtype-errors/show-errors */
+import { Tabs, Tab } from 'material-ui/Tabs';
+/* eslint-enable */
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
-import { renderAllVsAllTable, SeasonsTable } from '../../lib/competitionGenerator/allVsAllRenderer';
+import { renderAllVsAllTable } from '../../lib/competitionGenerator/allVsAllRenderer';
+import SeasonsTable from '../SeasonsTable';
 
 type EditTableType = {
   file: {

@@ -1,0 +1,19 @@
+.tableContainer {
+  width: 100%;
+  display: inline-block;
+  border: solid 1px;
+  box-sizing: border-box;
+  float: left;
+}
+
+@media screen and (min-width: 750px) and (max-width: 1200px) {
+    .tableContainer{
+      width: 50%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .tableContainer{
+      width: 25%;
+    }
+}
