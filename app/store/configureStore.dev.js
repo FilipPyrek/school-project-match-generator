@@ -5,12 +5,10 @@ import { createHashHistory } from 'history';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducer';
-import * as counterActions from '../containers/CounterPage/actions';
-import type { counterStateType } from '../containers/CounterPage/reducer';
 
 const history = createHashHistory();
 
-const configureStore = (initialState: ?counterStateType) => {
+const configureStore = (initialState?: any) => {
   // Redux Configuration
   const middleware = [];
   const enhancers = [];
@@ -31,7 +29,6 @@ const configureStore = (initialState: ?counterStateType) => {
 
   // Redux DevTools Configuration
   const actionCreators = {
-    ...counterActions,
     ...routerActions,
   };
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
