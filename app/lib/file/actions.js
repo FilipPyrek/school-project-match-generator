@@ -1,6 +1,7 @@
 // @flow
 import { remote } from 'electron';
 import { push } from 'react-router-redux';
+import { fromJS, Map } from 'immutable';
 import fs from 'fs';
 import { generate, makeInput, makeTeam } from '../../lib/competitionGenerator/allVsAllGenerator';
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
@@ -52,11 +53,13 @@ export function saveFile(data: SaveFileType) {
 type NewFileType = {
   teamsCount: number,
   roundsCount: number,
-  roundMatchesCount: number
+  roundMatchesCount: number,
+  teamRestrictions: any
 };
 
 export function newFile(data: NewFileType) {
-  const { teamsCount, roundsCount, roundMatchesCount } = data;
+  const { teamsCount, roundsCount, roundMatchesCount, teamRestrictions } = data;
+  const restrictions = fromJS(teamRestrictions);
   return (dispatch: () => void) =>
     new Promise((resolve) =>
       remote.dialog.showSaveDialog(
@@ -77,7 +80,16 @@ export function newFile(data: NewFileType) {
     filename,
     competitionData: generate(
       makeInput(
-        Array(teamsCount).fill(0).map((_, i) => makeTeam(`${i + 1}. Tým`, [])), // TEAMS
+        Array(teamsCount).fill(0).map((_, teamId) =>
+          makeTeam(
+            `${teamId + 1}. Tým`,
+            restrictions.get(String(teamId), Map())
+                         .filter((isRestricted) => isRestricted)
+                         .keySeq()
+                         .map((key) => Number(key))
+                         .toArray(),
+          ),
+        ), // TEAMS
         roundsCount, // SEASONS_COUNT
         roundMatchesCount, // MAX_MATCHES_IN_SEASON
         4, // MATCHES_TEAM_IN_ROUND

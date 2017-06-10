@@ -16,6 +16,8 @@ const mapDispatchToProps = {
   onRoundsCountChange: PickSportActions.setRoundsCount,
   onRoundMatchesCountChange: PickSportActions.setRoundMatchesCount,
   onSubmit: newFile,
+  onContinue: PickSportActions.nextStage,
+  onCheckRestriction: PickSportActions.setRestriction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PickSport);
