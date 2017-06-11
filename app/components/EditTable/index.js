@@ -7,6 +7,7 @@ import Snackbar from 'material-ui/Snackbar';
 import type { Result } from '../../lib/competitionGenerator/allVsAllGenerator';
 import AllVsAllTable from '../AllVsAllTable';
 import SeasonsTable from '../SeasonsTable';
+import PointsTable from '../PointsTable';
 
 type EditTableType = {
   file: {
@@ -32,6 +33,11 @@ export default function EditTable(props: EditTableType) {
         <Tab label="Výsledky">
           <div style={{ height: 'calc(100vh - 117px)', overflow: 'auto' }}>
             <AllVsAllTable generatorResult={generatorResult} />
+          </div>
+        </Tab>
+        <Tab label="Body">
+          <div style={{ height: 'calc(100vh - 117px)', overflow: 'auto' }}>
+            <PointsTable generatorResult={generatorResult} />
           </div>
         </Tab>
       </Tabs>
