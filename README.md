@@ -1,4 +1,5 @@
-# school-project-match-generator
+![Logo, Simple Brackets](https://user-images.githubusercontent.com/6282843/27014267-b5f96db0-4ef5-11e7-8980-6693c2b2c238.png)
+
 
 ## Boilerplate source repo
 `https://github.com/chentsulin/electron-react-boilerplate`
