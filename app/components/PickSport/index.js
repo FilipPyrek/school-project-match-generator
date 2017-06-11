@@ -39,12 +39,12 @@ export default function PickSport(props: PickSportType) {
   } = props;
   const restrictions = fromJS(teamRestrictions);
   return (
-    <div>
+    <div style={{ paddingTop: '10vmin' }}>
       {
         stage === 0
         ?
-          <div>
-            <table>
+          <div style={{ textAlign: 'center' }}>
+            <table style={{ display: 'inline-block', textAlign: 'left' }}>
               <tbody>
                 <tr>
                   <td>Počet týmů</td>
@@ -71,10 +71,12 @@ export default function PickSport(props: PickSportType) {
                   </td>
                 </tr>
                 <tr>
-                  <td>Počet zápasů v jednom kole</td>
+                  <td style={{ paddingRight: '2vmin' }}>
+                    Počet zápasů v jedné etapě
+                  </td>
                   <td>
                     <TextField
-                      hintText="Počet zápasů v jednom kole"
+                      hintText="Počet zápasů v jedné etapě"
                       onChange={(e) => onRoundMatchesCountChange(
                         Number(e.target.value),
                       )}
@@ -89,6 +91,12 @@ export default function PickSport(props: PickSportType) {
                       label="Pokračovat"
                       onTouchTap={onContinue}
                       primary
+                      disabled={
+                           Number(teamsCount) < 2
+                        || Number(roundsCount) < 1
+                        || Number(roundMatchesCount) < 1
+                      }
+                      style={{ marginTop: '2vmin' }}
                     />
                   </td>
                 </tr>
@@ -96,14 +104,14 @@ export default function PickSport(props: PickSportType) {
             </table>
           </div>
         :
-          <div>
-            <table>
+          <div style={{ textAlign: 'center' }}>
+            <table style={{ display: 'inline-block', textAlign: 'left' }}>
               <tbody>
                 <tr>
                   <th />
                   {
                     Array(roundsCount).fill(0).map((_, i) => (
-                      <th key={i}>
+                      <th key={i} style={{ padding: '1vmin' }}>
                         {i + 1}. etapa
                       </th>
                     ))
@@ -115,21 +123,23 @@ export default function PickSport(props: PickSportType) {
                       <td>{teamId + 1}. tým</td>
                       {
                         Array(roundsCount).fill(0).map((__, roundId) => (
-                          <td key={roundId} style={{ textAlign: 'center' }}>
-                            <Checkbox
-                              label=""
-                              checked={
-                                !restrictions.getIn(
-                                  [String(teamId), String(roundId)],
-                                  false,
-                                )
-                              }
-                              onCheck={(___, isChecked) => onCheckRestriction({
-                                isRestricted: !isChecked,
-                                teamId,
-                                roundId,
-                              })}
-                            />
+                          <td key={roundId} style={{ textAlign: 'center', padding: '1vmin' }}>
+                            <div style={{ display: 'inline-block' }}>
+                              <Checkbox
+                                label=""
+                                checked={
+                                  !restrictions.getIn(
+                                    [String(teamId), String(roundId)],
+                                    false,
+                                  )
+                                }
+                                onCheck={(___, isChecked) => onCheckRestriction({
+                                  isRestricted: !isChecked,
+                                  teamId,
+                                  roundId,
+                                })}
+                              />
+                            </div>
                           </td>
                         ))
                       }
