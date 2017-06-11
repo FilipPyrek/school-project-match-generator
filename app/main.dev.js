@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 
 let mainWindow = null;
 
@@ -81,4 +81,29 @@ app.on('ready', async () => {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    mainWindow.openDevTools();
+    mainWindow.webContents.on('context-menu', (e, props) => {
+      const { x, y } = props;
+
+      Menu
+        .buildFromTemplate([
+          {
+            label: 'Inspect element',
+            click: () => {
+              mainWindow.inspectElement(x, y);
+            },
+          },
+          {
+            label: 'Open DevTools',
+            accelerator: 'F12',
+            click: () => {
+              mainWindow.openDevTools();
+            },
+          },
+        ])
+       .popup(mainWindow);
+    });
+  }
 });
