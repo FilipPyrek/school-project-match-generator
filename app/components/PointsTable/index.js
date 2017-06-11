@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
-import type { Team, TeamPoints, Result } from '../../lib/competitionGenerator/allVsAllGenerator';
+import type { Team, TeamPoints, Result, ResultRanking } from '../../lib/competitionGenerator/allVsAllGenerator';
+import { generateRanking } from '../../lib/competitionGenerator/allVsAllGenerator';
 import { muiTheme } from '../../containers/Theme';
 
 
@@ -9,7 +10,8 @@ type RenderPointsTableType = {
 };
 
 export default function PointsTable(props: RenderPointsTableType) {
-  const { generatorResult } = props;
+  const { generatorResult }: { generatorResult: Result } = props;
+  const resultRanking: ResultRanking = generateRanking(generatorResult);
 
   const containerStyle = {
     border: '1px solid',
@@ -35,11 +37,11 @@ export default function PointsTable(props: RenderPointsTableType) {
             <th style={{ lineHeight: '4vmin' }}>Points</th>
           </tr>
 
-          {Array(generatorResult.tableRanking.length).fill(0).map((__, i) => {
+          {Array(resultRanking.tableRanking.length).fill(0).map((__, i) => {
             // Foreach team in table
-            const teamIndex: number = generatorResult.tableRanking[i];
+            const teamIndex: number = resultRanking.tableRanking[i];
             const team: Team = generatorResult.input.teams[teamIndex];
-            const teamPoints: TeamPoints = generatorResult.tablePoints[teamIndex];
+            const teamPoints: TeamPoints = resultRanking.tablePoints[teamIndex];
             return (
               <tr key={i}>
                 <td style={tdStyle}>
