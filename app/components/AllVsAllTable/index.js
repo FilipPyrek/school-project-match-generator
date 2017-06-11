@@ -35,7 +35,7 @@ export default function AllVsAllTable(props: AllVsAllTableType) {
                   colSpan={generatorResult.tablesAllVsAll[i].length + 1}
                   style={{ lineHeight: '4vmin' }}
                 >
-                  {i + 1}. etapa
+                  {i + 1}. kolo
                 </th>
               </tr>
               <tr>
