@@ -408,14 +408,18 @@ export function generateRanking(result: Result): ResultRanking {
   Object.keys(result.allMatches) // eslint-disable-line flowtype-errors/show-errors
     .forEach((indexId: string) => {
       const match: Match = result.allMatches[Number(indexId)];
+
       if (!match.result) return;
+      const matchResult: MatchResult = match.result;
+      if (!matchResult.team1Score || !matchResult.team2Score) return;
+
       const team1Points: TeamPoints = resultRanking.tablePoints[match.team1Index];
       const team2Points: TeamPoints = resultRanking.tablePoints[match.team2Index];
 
       const team1Score: number =
-        match.result.team1Score; // eslint-disable-line flowtype-errors/show-errors
+        matchResult.team1Score; // eslint-disable-line flowtype-errors/show-errors
       const team2Score: number =
-        match.result.team2Score; // eslint-disable-line flowtype-errors/show-errors
+        matchResult.team2Score; // eslint-disable-line flowtype-errors/show-errors
       if (team1Score > team2Score) {
         team1Points.total += 3;
       } else if (team2Score > team1Score) {
