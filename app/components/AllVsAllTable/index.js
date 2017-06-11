@@ -27,8 +27,8 @@ export default function AllVsAllTable(props: AllVsAllTableType) {
   return (
     <div>
       {Array(generatorResult.tablesAllVsAll.length).fill(0).map((_, i) =>
-        <div style={containerStyle}>
-          <table key={i} style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <div key={i} style={containerStyle}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <tbody>
               <tr>
                 <th
